@@ -3,17 +3,16 @@ import { Link, useLocation } from 'react-router-dom';
 
 const SearchResultPage = () => {
   const location = useLocation();
-  const searchQuery = new URLSearchParams(location.search).get('query');
+  const searchQuery = new URLSearchParams(location.search).get('q');
   const [searchResults, setSearchResults] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
-      try {
-        const apiKey = import.meta.env.VITE_GOOGLE_BOOK_API; 
-        const response = await fetch(
-          `https://www.googleapis.com/books/v1/volumes?q=${encodeURIComponent(searchQuery)}&key=${apiKey}`
+      try { 
+        const response = await fetch( 
+          `https://www.googleapis.com/books/v1/volumes?q=${encodeURIComponent(searchQuery)}`
         );
         const data = await response.json();
         setSearchResults(data.items || []);
